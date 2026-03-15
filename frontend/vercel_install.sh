@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# 2. Instala o Flutter se não existir
+if [ ! -d flutter ]; then 
+  git clone https://github.com/flutter/flutter.git
+fi
+
+
+./flutter/bin/flutter config --enable-web
+./flutter/bin/flutter pub get
