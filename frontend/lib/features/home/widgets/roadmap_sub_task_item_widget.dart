@@ -38,7 +38,11 @@ class RoadmapSubTaskItemWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: const Center(
-                  child: Icon(Icons.lock_outline, size: 14, color: AppColors.slate400),
+                  child: Icon(
+                    Icons.lock_outline,
+                    size: 14,
+                    color: AppColors.slate400,
+                  ),
                 ),
               ),
               const SizedBox(width: 16),
@@ -49,15 +53,15 @@ class RoadmapSubTaskItemWidget extends StatelessWidget {
                     Text(
                       title,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            color: AppColors.slate400,
-                            fontWeight: FontWeight.w700,
-                          ),
+                        color: AppColors.slate400,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                     Text(
                       description,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppColors.slate400,
-                          ),
+                        color: AppColors.slate400,
+                      ),
                     ),
                   ],
                 ),
@@ -65,9 +69,9 @@ class RoadmapSubTaskItemWidget extends StatelessWidget {
               Text(
                 xp,
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: AppColors.slate400,
-                      fontWeight: FontWeight.w700,
-                    ),
+                  color: AppColors.slate400,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ],
           ),
@@ -111,15 +115,15 @@ class RoadmapSubTaskItemWidget extends StatelessWidget {
                   Text(
                     title,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w700,
-                        ),
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                   Text(
                     description,
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: AppColors.primary.withAlpha(178),
-                        ),
+                      color: AppColors.primary.withAlpha(178),
+                    ),
                   ),
                 ],
               ),
@@ -127,9 +131,9 @@ class RoadmapSubTaskItemWidget extends StatelessWidget {
             Text(
               xp,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w900,
-                  ),
+                color: AppColors.primary,
+                fontWeight: FontWeight.w900,
+              ),
             ),
           ],
         ),
@@ -165,15 +169,15 @@ class RoadmapSubTaskItemWidget extends StatelessWidget {
                 Text(
                   title,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        color: AppColors.slate800,
-                        fontWeight: FontWeight.w700,
-                      ),
+                    color: AppColors.slate800,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 Text(
                   description,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppColors.slate500,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: AppColors.slate500),
                 ),
               ],
             ),
@@ -181,9 +185,9 @@ class RoadmapSubTaskItemWidget extends StatelessWidget {
           Text(
             xp,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: AppColors.slate400,
-                  fontWeight: FontWeight.w700,
-                ),
+              color: AppColors.slate400,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ],
       ),

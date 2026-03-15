@@ -31,7 +31,9 @@ class RoadmapStageRowWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
-          child: direction == StageDirection.left || direction == StageDirection.leftLocked
+          child:
+              direction == StageDirection.left ||
+                  direction == StageDirection.leftLocked
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

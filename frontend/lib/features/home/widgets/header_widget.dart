@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:frontend/shared/theme/app_colors.dart';
 
 class HeaderWidget extends StatelessWidget {
-  const HeaderWidget({super.key});
+  final String title;
+  final IconData icon;
+
+  const HeaderWidget({
+    super.key,
+    this.title = 'Roadmap - Jornada Startup',
+    this.icon = Icons.map_outlined,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +24,15 @@ class HeaderWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.map_outlined, color: AppColors.primary, size: 28),
+              Icon(icon, color: AppColors.primary, size: 28),
               const SizedBox(width: 16),
               Text(
-                'Roadmap - Startup Journey',
+                title,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: AppColors.slate900,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: -0.5,
-                    ),
+                  color: AppColors.slate900,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.5,
+                ),
               ),
             ],
           ),
@@ -41,8 +48,11 @@ class HeaderWidget extends StatelessWidget {
                 child: const TextField(
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search, color: AppColors.slate400),
-                    hintText: 'Search milestones...',
-                    hintStyle: TextStyle(color: AppColors.slate400, fontSize: 14),
+                    hintText: 'Buscar marcos...',
+                    hintStyle: TextStyle(
+                      color: AppColors.slate400,
+                      fontSize: 14,
+                    ),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(vertical: 11),
                   ),
@@ -55,13 +65,17 @@ class HeaderWidget extends StatelessWidget {
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all(AppColors.slate100),
                   foregroundColor: WidgetStateProperty.resolveWith((states) {
-                    if (states.contains(WidgetState.hovered)) return AppColors.primary;
+                    if (states.contains(WidgetState.hovered)) {
+                      return AppColors.primary;
+                    }
                     return AppColors.slate600;
                   }),
                   overlayColor: WidgetStateProperty.all(Colors.transparent),
-                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  )),
+                  shape: WidgetStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
                   minimumSize: WidgetStateProperty.all(const Size(44, 44)),
                 ),
               ),
@@ -74,13 +88,14 @@ class HeaderWidget extends StatelessWidget {
                   border: Border.all(color: AppColors.primary, width: 2),
                   image: const DecorationImage(
                     image: NetworkImage(
-                        'https://lh3.googleusercontent.com/aida-public/AB6AXuDE_237KNzWF1QMP6JQ1UsSGpk6mHk5ikW8gVHWwF4Uptvum5WktrJzQUFb4oljQ5Q8aHE2cEocUiWUxN-yc3RsNaq_AXZM29sdCZy-NXiaT3Shx7eDpdA7zalhOVlB35ZqR3w4AlHgJtYCmkyzUaJyBWhnq7ckk9vkstAgpFnoct3PIWsv6gD4szwlFskKkcASJrZxXtE9sTlRNzEavI28vnxKs7qBf2pnC93hacP2icJJrlsfaRK-EW9QX1ItIEEH8LNljhTrtz71'),
+                      'https://lh3.googleusercontent.com/aida-public/AB6AXuDE_237KNzWF1QMP6JQ1UsSGpk6mHk5ikW8gVHWwF4Uptvum5WktrJzQUFb4oljQ5Q8aHE2cEocUiWUxN-yc3RsNaq_AXZM29sdCZy-NXiaT3Shx7eDpdA7zalhOVlB35ZqR3w4AlHgJtYCmkyzUaJyBWhnq7ckk9vkstAgpFnoct3PIWsv6gD4szwlFskKkcASJrZxXtE9sTlRNzEavI28vnxKs7qBf2pnC93hacP2icJJrlsfaRK-EW9QX1ItIEEH8LNljhTrtz71',
+                    ),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

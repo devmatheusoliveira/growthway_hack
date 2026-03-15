@@ -49,9 +49,13 @@ class _SidebarNavItemWidgetState extends State<SidebarNavItemWidget> {
               Text(
                 widget.label,
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      color: widget.isActive ? AppColors.primary : AppColors.slate600,
-                      fontWeight: widget.isActive ? FontWeight.w700 : FontWeight.w600,
-                    ),
+                  color: widget.isActive
+                      ? AppColors.primary
+                      : AppColors.slate600,
+                  fontWeight: widget.isActive
+                      ? FontWeight.w700
+                      : FontWeight.w600,
+                ),
               ),
             ],
           ),

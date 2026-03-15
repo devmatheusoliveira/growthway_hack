@@ -17,7 +17,7 @@ class GlobalRankBadgeWidget extends StatelessWidget {
             color: AppColors.slate900.withAlpha(25),
             blurRadius: 24,
             offset: const Offset(0, 4),
-          )
+          ),
         ],
       ),
       child: Row(
@@ -48,25 +48,25 @@ class GlobalRankBadgeWidget extends StatelessWidget {
                 Text(
                   'GLOBAL RANK',
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 1,
-                        fontSize: 10,
-                      ),
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 1,
+                    fontSize: 10,
+                  ),
                 ),
                 RichText(
                   text: TextSpan(
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: AppColors.slate900,
-                          fontWeight: FontWeight.w800,
-                        ),
+                      color: AppColors.slate900,
+                      fontWeight: FontWeight.w800,
+                    ),
                     children: [
                       const TextSpan(text: '#452 '),
                       TextSpan(
                         text: '/ 12,402',
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                              color: AppColors.slate400,
-                            ),
+                          color: AppColors.slate400,
+                        ),
                       ),
                     ],
                   ),

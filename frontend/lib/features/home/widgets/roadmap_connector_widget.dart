@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/shared/theme/app_colors.dart';
 
 class RoadmapConnectorWidget extends StatelessWidget {
   final bool isSolid;
@@ -18,16 +19,16 @@ class RoadmapConnectorWidget extends StatelessWidget {
       return Container(
         width: 8,
         height: 80,
-        decoration: BoxDecoration(
-          color: Colors.transparent, // to force column layout 
+        decoration: const BoxDecoration(
+          color: Colors.transparent, // to force column layout
         ),
         child: Column(
           children: [
-            Expanded(child: Container(color: const Color(0xFFE2E8F0))),
+            Expanded(child: Container(color: AppColors.slate200)),
             Container(
               height: 16,
               decoration: const BoxDecoration(
-                color: Color(0xFFE2E8F0),
+                color: AppColors.slate200,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(8),
                   bottomRight: Radius.circular(8),
@@ -48,16 +49,12 @@ class RoadmapConnectorWidget extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color(0xFF6BC80E),
+                  color: AppColors.primary,
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
             ),
-            Expanded(
-              child: Container(
-                color: const Color(0xFFE2E8F0),
-              ),
-            ),
+            Expanded(child: Container(color: AppColors.slate200)),
           ],
         ),
       );
@@ -67,7 +64,7 @@ class RoadmapConnectorWidget extends StatelessWidget {
       width: 8,
       height: 80,
       decoration: BoxDecoration(
-        color: isSolid ? const Color(0xFF6BC80E) : const Color(0xFFE2E8F0),
+        color: isSolid ? AppColors.primary : AppColors.slate200,
         borderRadius: BorderRadius.circular(8),
       ),
     );

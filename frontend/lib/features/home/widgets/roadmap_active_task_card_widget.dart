@@ -1,12 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/shared/theme/app_colors.dart';
 import 'package:frontend/features/home/widgets/roadmap_sub_task_item_widget.dart';
+import 'package:frontend/shared/models/roadmap_model.dart';
 
 class RoadmapActiveTaskCardWidget extends StatelessWidget {
-  const RoadmapActiveTaskCardWidget({super.key});
+  final List<RoadmapTask> tasks;
+  final String stageTitle;
+  final String stageDescription;
+  final String stageXp;
+  final String? question;
+  final String? answer;
+
+  const RoadmapActiveTaskCardWidget({
+    super.key,
+    required this.tasks,
+    required this.stageTitle,
+    required this.stageDescription,
+    required this.stageXp,
+    this.question,
+    this.answer,
+  });
+
+  SubTaskState _getTaskState(String state) {
+    switch (state) {
+      case 'completed':
+        return SubTaskState.completed;
+      case 'active':
+        return SubTaskState.active;
+      case 'locked':
+      default:
+        return SubTaskState.locked;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final completedCount = tasks.where((t) => t.state == 'completed').length;
+
     return Container(
       width: double.infinity,
       constraints: const BoxConstraints(maxWidth: 672), // max-w-2xl
@@ -20,7 +50,7 @@ class RoadmapActiveTaskCardWidget extends StatelessWidget {
             color: AppColors.slate900.withAlpha(25),
             blurRadius: 24,
             offset: const Offset(0, 10),
-          )
+          ),
         ],
       ),
       clipBehavior: Clip.antiAlias,
@@ -40,22 +70,28 @@ class RoadmapActiveTaskCardWidget extends StatelessWidget {
                         color: AppColors.white.withAlpha(51),
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      child: const Icon(Icons.layers_outlined, color: AppColors.white, size: 28),
+                      child: const Icon(
+                        Icons.layers_outlined,
+                        color: AppColors.white,
+                        size: 28,
+                      ),
                     ),
                     const SizedBox(width: 16),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'MVP Stage',
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          stageTitle,
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(
                                 color: AppColors.white,
                                 fontWeight: FontWeight.w800,
                               ),
                         ),
                         Text(
-                          'Build your Minimum Viable Product',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          stageDescription,
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
                                 color: AppColors.white.withAlpha(204),
                                 fontWeight: FontWeight.w500,
                               ),
@@ -68,21 +104,22 @@ class RoadmapActiveTaskCardWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '1,500 XP',
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      stageXp,
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(
                             color: AppColors.white,
                             fontWeight: FontWeight.w900,
                           ),
                     ),
                     Text(
-                      'POTENTIAL REWARD',
+                      'RECOMPENSA POTENCIAL',
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: AppColors.white.withAlpha(229),
-                            fontWeight: FontWeight.w800,
-                          ),
+                        color: AppColors.white.withAlpha(229),
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),
@@ -90,70 +127,129 @@ class RoadmapActiveTaskCardWidget extends StatelessWidget {
             padding: const EdgeInsets.all(32),
             child: Column(
               children: [
+                if (question != null) ...[
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(20),
+                    margin: const EdgeInsets.only(bottom: 32),
+                    decoration: BoxDecoration(
+                      color: AppColors.slate50,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppColors.slate200),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.psychology_outlined,
+                              color: AppColors.slate400,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              'POR QUE VOCÊ ESTÁ AQUI?',
+                              style: Theme.of(context).textTheme.labelSmall
+                                  ?.copyWith(
+                                    color: AppColors.slate400,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: 1,
+                                  ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          question!,
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(
+                                color: AppColors.slate800,
+                                fontWeight: FontWeight.w700,
+                              ),
+                        ),
+                        const SizedBox(height: 12),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withAlpha(25),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: AppColors.primary.withAlpha(51),
+                            ),
+                          ),
+                          child: Text(
+                            'Sua resposta: $answer',
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(height: 1, color: AppColors.slate100),
+                  const SizedBox(height: 32),
+                ],
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'ACTIVE SUB-TASKS',
+                      'SUB-TAREFAS ATIVAS',
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: AppColors.slate400,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 1,
-                          ),
+                        color: AppColors.slate400,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 1,
+                      ),
                     ),
                     Text(
-                      '2 of 4 Completed',
+                      '$completedCount de ${tasks.length} Concluídas',
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.w800,
-                          ),
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 24),
-                const RoadmapSubTaskItemWidget(
-                  title: 'Define Core Features',
-                  description: 'List top 3 must-have features',
-                  xp: '+200 XP',
-                  state: SubTaskState.completed,
+                ...tasks.map(
+                  (task) => Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: RoadmapSubTaskItemWidget(
+                      title: task.title,
+                      description: task.description,
+                      xp: task.xp,
+                      state: _getTaskState(task.state),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 16),
-                const RoadmapSubTaskItemWidget(
-                  title: 'UI/UX Prototype',
-                  description: 'Figma mockups for key screens',
-                  xp: '+400 XP',
-                  state: SubTaskState.completed,
-                ),
-                const SizedBox(height: 16),
-                const RoadmapSubTaskItemWidget(
-                  title: 'Technical Setup',
-                  description: 'Database schema & server init',
-                  xp: '+500 XP',
-                  state: SubTaskState.active,
-                ),
-                const SizedBox(height: 16),
-                const RoadmapSubTaskItemWidget(
-                  title: 'Beta Launch',
-                  description: 'Deploy to first 10 users',
-                  xp: '+400 XP',
-                  state: SubTaskState.locked,
-                ),
-                const SizedBox(height: 32),
                 ElevatedButton(
                   onPressed: () {},
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(AppColors.primary),
                     foregroundColor: WidgetStateProperty.all(AppColors.white),
-                    minimumSize: WidgetStateProperty.all(const Size(double.infinity, 56)),
+                    minimumSize: WidgetStateProperty.all(
+                      const Size(double.infinity, 56),
+                    ),
                     elevation: WidgetStateProperty.resolveWith((states) {
                       return states.contains(WidgetState.hovered) ? 15.0 : 10.0;
                     }),
                     shadowColor: WidgetStateProperty.resolveWith((states) {
-                      return AppColors.primary.withAlpha(states.contains(WidgetState.hovered) ? 102 : 76);
+                      return AppColors.primary.withAlpha(
+                        states.contains(WidgetState.hovered) ? 102 : 76,
+                      );
                     }),
-                    shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    )),
+                    shape: WidgetStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
                   ),
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -161,15 +257,18 @@ class RoadmapActiveTaskCardWidget extends StatelessWidget {
                       Icon(Icons.bolt, size: 24),
                       SizedBox(width: 8),
                       Text(
-                        'Continue Building',
-                        style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                        'Continuar Construindo',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                        ),
                       ),
                     ],
                   ),
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

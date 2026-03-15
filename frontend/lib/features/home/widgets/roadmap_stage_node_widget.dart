@@ -6,10 +6,7 @@ enum StageNodeType { completed, active, locked }
 class RoadmapStageNodeWidget extends StatefulWidget {
   final StageNodeType type;
 
-  const RoadmapStageNodeWidget({
-    super.key,
-    required this.type,
-  });
+  const RoadmapStageNodeWidget({super.key, required this.type});
 
   @override
   State<RoadmapStageNodeWidget> createState() => _RoadmapStageNodeWidgetState();
@@ -56,7 +53,8 @@ class _RoadmapStageNodeWidgetState extends State<RoadmapStageNodeWidget>
   @override
   void didUpdateWidget(RoadmapStageNodeWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.type == StageNodeType.active && oldWidget.type != StageNodeType.active) {
+    if (widget.type == StageNodeType.active &&
+        oldWidget.type != StageNodeType.active) {
       _controller.repeat();
     } else if (widget.type != StageNodeType.active) {
       _controller.stop();
@@ -81,11 +79,7 @@ class _RoadmapStageNodeWidgetState extends State<RoadmapStageNodeWidget>
           border: Border.all(color: AppColors.white, width: 4),
         ),
         child: const Center(
-          child: Icon(
-            Icons.lock_outline,
-            color: AppColors.slate400,
-            size: 32,
-          ),
+          child: Icon(Icons.lock_outline, color: AppColors.slate400, size: 32),
         ),
       );
     }
@@ -133,7 +127,7 @@ class _RoadmapStageNodeWidgetState extends State<RoadmapStageNodeWidget>
                           color: AppColors.primary.withAlpha(102),
                           blurRadius: _pulseShadowAnim.value,
                           spreadRadius: 4,
-                        )
+                        ),
                       ],
                     ),
                     child: const Center(
@@ -160,18 +154,11 @@ class _RoadmapStageNodeWidgetState extends State<RoadmapStageNodeWidget>
         shape: BoxShape.circle,
         border: Border.all(color: AppColors.white, width: 4),
         boxShadow: [
-          BoxShadow(
-            color: AppColors.primary.withAlpha(76),
-            blurRadius: 16,
-          )
+          BoxShadow(color: AppColors.primary.withAlpha(76), blurRadius: 16),
         ],
       ),
       child: const Center(
-        child: Icon(
-          Icons.check,
-          color: AppColors.white,
-          size: 32,
-        ),
+        child: Icon(Icons.check, color: AppColors.white, size: 32),
       ),
     );
   }

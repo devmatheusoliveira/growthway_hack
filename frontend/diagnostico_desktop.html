@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Diagnóstico Startup Platform</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#6bc80e",
+                        "background-light": "#f7f8f6",
+                        "background-dark": "#192210",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between p-6 shrink-0">
+<div class="flex flex-col gap-8">
+<!-- Brand/Logo -->
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">rocket_launch</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-white text-base font-bold leading-none">Startup Platform</h1>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium">Plano Growth</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-semibold">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">work</span>
+<span class="text-sm font-semibold">Projetos</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-primary/10 text-primary rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-sm font-semibold">Diagnóstico</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-semibold">Equipe</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-semibold">Configurações</span>
+</a>
+</nav>
+</div>
+<!-- Sidebar Bottom -->
+<div class="flex flex-col gap-4">
+<button class="w-full flex items-center justify-center gap-2 py-3 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl font-bold text-sm hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+<span class="material-symbols-outlined text-lg">support_agent</span>
+                    Suporte
+                </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto flex flex-col">
+<!-- Header/Progress Bar -->
+<header class="w-full max-w-4xl mx-auto px-8 pt-12 pb-6">
+<div class="flex justify-between items-end mb-3">
+<div class="flex flex-col gap-1">
+<span class="text-primary font-bold text-sm tracking-wide uppercase">Diagnóstico Inicial</span>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold">Passo 2 de 10</h2>
+</div>
+<span class="text-slate-500 dark:text-slate-400 text-sm font-medium">20% concluído</span>
+</div>
+<div class="w-full h-2.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 20%;"></div>
+</div>
+</header>
+<!-- Diagnostic Content -->
+<section class="flex-1 flex flex-col items-center justify-center px-8 pb-12">
+<div class="w-full max-w-4xl">
+<!-- Question Title -->
+<div class="text-center mb-12">
+<h1 class="text-slate-900 dark:text-white text-4xl md:text-5xl font-extrabold leading-tight tracking-tight">
+                            Qual é o foco principal do seu <br class="hidden md:block"/> MVP agora?
+                        </h1>
+<p class="mt-4 text-slate-500 dark:text-slate-400 text-lg">Selecione a opção que melhor descreve seu momento atual.</p>
+</div>
+<!-- Options Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Card 1 -->
+<div class="group relative bg-white dark:bg-slate-900 border-2 border-transparent hover:border-primary p-6 rounded-xl shadow-sm hover:shadow-lg transition-all cursor-pointer">
+<div class="flex gap-5">
+<div class="w-16 h-16 shrink-0 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-primary/10 transition-colors overflow-hidden">
+<img alt="Market Validation" class="w-full h-full object-cover" data-alt="Abstract icon representing market research and validation" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8WRI_f6p075VMV-yCAnHXIHt7jbKPfD79YIkm4_GHvFZTTUNdfBDYT3iB1AAIV2QPdZ4qCz4tQixH1HKxQ7x813K-UaIsoG6aOlJQBQQZKxyT2EnbDANeFTRro2tJQwDDupDGkpFiuZv-lNxM975j2ZpNnQ9HOi9Z7kFGBC0-6BJZE2XhhtURw18yTfwNYHJw5XBMOVxj7ubYLQpWxCaBDg6z0B3e4-6KdQmsT8hL-sClkj2dEOK_otK74ZEChPV5BbF2riDy8c0i"/>
+</div>
+<div class="flex flex-col justify-center">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold group-hover:text-primary transition-colors">Validação de Mercado</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mt-1">Testar hipóteses fundamentais com usuários reais para encontrar o Product-Market Fit.</p>
+</div>
+</div>
+<div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group relative bg-white dark:bg-slate-900 border-2 border-primary p-6 rounded-xl shadow-md transition-all cursor-pointer">
+<div class="flex gap-5">
+<div class="w-16 h-16 shrink-0 rounded-lg bg-primary/10 flex items-center justify-center overflow-hidden">
+<img alt="Product Development" class="w-full h-full object-cover" data-alt="Abstract icon representing software development core features" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXh6DisPsUUySkomhwTtmXYmKNYflrS5A13QO5S1aDH92erzK_i2lFV9WYzbQ39MwJRfaCBaJk54tJKitohbYVM935vZwN3nIxUEt0mtIdXZzZCW6VxWaSunPeKIqAVwt5Zs7eQrlM4RL-GODL0ej_Wg04BkydxJ9r-nV19sE9axijChj-vukbGvKr0FjmGNaeyXuFVJJc2VGZRG9wRnHTLdggKunrAMnLu658U-nH3Xc-vw8_zqGua84gAZmwXXciL3OkFjK_2A7V"/>
+</div>
+<div class="flex flex-col justify-center">
+<h3 class="text-primary text-lg font-bold">Desenvolvimento de Produto</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mt-1">Focar na construção e polimento das funcionalidades core da sua aplicação.</p>
+</div>
+</div>
+<div class="absolute top-4 right-4 opacity-100">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group relative bg-white dark:bg-slate-900 border-2 border-transparent hover:border-primary p-6 rounded-xl shadow-sm hover:shadow-lg transition-all cursor-pointer">
+<div class="flex gap-5">
+<div class="w-16 h-16 shrink-0 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-primary/10 transition-colors overflow-hidden">
+<img alt="User Growth" class="w-full h-full object-cover" data-alt="Abstract icon representing user growth and analytics" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDE78G25B5gXPwAqG9Lao7AamOIQ-T53U5fs6Jfi28dpar8YnIbvh3UEsGffvI_zHoGcyROEg4KP5fIkGk5G7UNa_pkCeZTrhwQe6VKHQh09CherAvI4OMYVSho07pye5OCMAa9a4oUQcGeP0eq2Xdz4X3E_e0DqAYqo0HVxBBqNNCazj5Tn0SMhKpV7mpjYaEqUe_RjpUVIOOzd-JkGQCdPCZKYlF4n7m8W34lA0E01EhCNwY_oJXYxrExwNPnQU79y9bgKDnwCyuk"/>
+</div>
+<div class="flex flex-col justify-center">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold group-hover:text-primary transition-colors">Crescimento de Usuários</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mt-1">Estratégias de escala para aquisição de base e retenção de novos clientes.</p>
+</div>
+</div>
+<div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group relative bg-white dark:bg-slate-900 border-2 border-transparent hover:border-primary p-6 rounded-xl shadow-sm hover:shadow-lg transition-all cursor-pointer">
+<div class="flex gap-5">
+<div class="w-16 h-16 shrink-0 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-primary/10 transition-colors overflow-hidden">
+<img alt="Investment" class="w-full h-full object-cover" data-alt="Abstract icon representing fundraising and investment traction" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7Hukq4Lq4YGDoS9moatXonBwD50MD8NWou92B7CUpRcM-ngq_ckBbKqX3rM1op6EGS77SMQD44gaeZYREJT14_kHJHUZlaGHJ0zHry8_fVqGjfbLyK-h3dje2SqZQbIHcJG6jnH8g5OaUwg8Atmt2E9GI_kwpZQtd3i2H3Z76gfs00we8UC9nWlIXjBCp-RWmxOZbxxddqBmqZ-Q1ilEu-rrzdNS3Lmge0iJ0Y6TpZmsd_JK5KtMlE5ow8i_qShHFozQAvb34NVys"/>
+</div>
+<div class="flex flex-col justify-center">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold group-hover:text-primary transition-colors">Captação de Investimento</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mt-1">Preparar tração e métricas financeiras para rodada de aporte anjo ou pré-seed.</p>
+</div>
+</div>
+<div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</div>
+</div>
+</div>
+<!-- Navigation Buttons -->
+<div class="mt-12 flex items-center justify-center gap-4">
+<button class="flex items-center gap-2 px-8 py-4 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold text-base hover:bg-slate-300 dark:hover:bg-slate-700 transition-all">
+<span class="material-symbols-outlined">arrow_back</span>
+                            Voltar
+                        </button>
+<button class="flex items-center gap-2 px-12 py-4 bg-primary text-slate-900 rounded-xl font-bold text-base shadow-lg shadow-primary/25 hover:scale-105 transition-all">
+                            Próximo Passo
+                            <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Footer Info -->
+<footer class="w-full py-6 text-center text-slate-400 dark:text-slate-500 text-xs">
+                Respostas salvas automaticamente às 14:32 • ID da Sessão: ST-99234
+            </footer>
+</main>
+</div>
+</body></html>

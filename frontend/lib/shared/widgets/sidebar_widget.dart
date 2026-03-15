@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/shared/theme/app_colors.dart';
 import 'package:frontend/shared/widgets/sidebar_nav_item_widget.dart';
+import 'package:frontend/shared/routes/app_routes.dart';
 
 class SidebarWidget extends StatelessWidget {
-  const SidebarWidget({super.key});
+  final int activeIndex;
+
+  const SidebarWidget({super.key, this.activeIndex = 1});
 
   @override
   Widget build(BuildContext context) {
@@ -44,49 +47,98 @@ class SidebarWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Startup Journey',
+                      'Jornada Startup',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.slate900,
-                            height: 1,
-                          ),
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.slate900,
+                        height: 1,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Growth Mode',
+                      'Modo Crescimento',
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.w700,
-                          ),
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              children: const [
+              children: [
                 SidebarNavItemWidget(
                   label: 'Dashboard',
                   icon: Icons.grid_view,
+                  isActive: activeIndex == 0,
+                  onTap: () {
+                    if (activeIndex != 0) {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        AppRoutes.dashboard,
+                      );
+                    }
+                  },
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 SidebarNavItemWidget(
                   label: 'Roadmap',
                   icon: Icons.route,
-                  isActive: true,
+                  isActive: activeIndex == 1,
+                  onTap: () {
+                    if (activeIndex != 1) {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        AppRoutes.roadmap,
+                      );
+                    }
+                  },
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 SidebarNavItemWidget(
-                  label: 'Tasks',
-                  icon: Icons.check_circle_outline,
+                  label: 'Mapa de Mercado',
+                  icon: Icons.map_outlined,
+                  isActive: activeIndex == 2,
+                  onTap: () {
+                    if (activeIndex != 2) {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        AppRoutes.marketMap,
+                      );
+                    }
+                  },
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 SidebarNavItemWidget(
-                  label: 'Profile',
+                  label: 'Diagnóstico',
+                  icon: Icons.analytics_outlined,
+                  isActive: activeIndex == 3,
+                  onTap: () {
+                    if (activeIndex != 3) {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        AppRoutes.diagnostic,
+                      );
+                    }
+                  },
+                ),
+                const SizedBox(height: 4),
+                SidebarNavItemWidget(
+                  label: 'Perfil',
                   icon: Icons.person_outline,
+                  isActive: activeIndex == 4,
+                  onTap: () {
+                    if (activeIndex != 4) {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        AppRoutes.profile,
+                      );
+                    }
+                  },
                 ),
               ],
             ),
@@ -108,8 +160,9 @@ class SidebarWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'LEVEL 12',
-                            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            'NÍVEL 12',
+                            style: Theme.of(context).textTheme.labelSmall
+                                ?.copyWith(
                                   color: AppColors.slate500,
                                   fontWeight: FontWeight.w800,
                                   letterSpacing: 0.5,
@@ -117,7 +170,8 @@ class SidebarWidget extends StatelessWidget {
                           ),
                           Text(
                             '2,450 XP',
-                            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            style: Theme.of(context).textTheme.labelSmall
+                                ?.copyWith(
                                   color: AppColors.primary,
                                   fontWeight: FontWeight.w800,
                                 ),
@@ -143,7 +197,7 @@ class SidebarWidget extends StatelessWidget {
                                 BoxShadow(
                                   color: AppColors.primary.withAlpha(127),
                                   blurRadius: 8,
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -163,9 +217,17 @@ class SidebarWidget extends StatelessWidget {
                     }),
                     foregroundColor: WidgetStateProperty.all(AppColors.white),
                     elevation: WidgetStateProperty.all(5),
-                    shadowColor: WidgetStateProperty.all(AppColors.primary.withAlpha(127)),
-                    minimumSize: WidgetStateProperty.all(const Size(double.infinity, 48)),
-                    shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                    shadowColor: WidgetStateProperty.all(
+                      AppColors.primary.withAlpha(127),
+                    ),
+                    minimumSize: WidgetStateProperty.all(
+                      const Size(double.infinity, 48),
+                    ),
+                    shape: WidgetStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
                   ),
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -173,7 +235,7 @@ class SidebarWidget extends StatelessWidget {
                       Icon(Icons.add, size: 20),
                       SizedBox(width: 8),
                       Text(
-                        'New Venture',
+                        'Novo Projeto',
                         style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ],

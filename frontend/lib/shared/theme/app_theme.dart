@@ -10,7 +10,7 @@ class AppTheme {
         onPrimary: AppColors.white,
         secondary: AppColors.slate900,
         onSecondary: AppColors.white,
-        error: Colors.red,
+        error: AppColors.error,
         onError: AppColors.white,
         surface: AppColors.white,
         onSurface: AppColors.slate900,
@@ -23,9 +23,7 @@ class AppTheme {
         foregroundColor: AppColors.slate900,
         elevation: 0,
       ),
-      iconTheme: const IconThemeData(
-        color: AppColors.slate600,
-      ),
+      iconTheme: const IconThemeData(color: AppColors.slate600),
     );
   }
 }
