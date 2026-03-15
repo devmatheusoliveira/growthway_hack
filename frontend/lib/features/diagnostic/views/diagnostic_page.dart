@@ -22,7 +22,8 @@ class _DiagnosticPageState extends State<DiagnosticPage> {
   int _selectedIndex = -1;
   bool _isLoading = true;
   int _currentStep = 1;
-  final int _totalSteps = 5; // Pode ser dinâmico no futuro
+  final int _totalSteps = 5;
+  final List<_DiagnosticHistoryItem> _history = [];
 
   @override
   void initState() {
@@ -74,6 +75,11 @@ class _DiagnosticPageState extends State<DiagnosticPage> {
 
         final nextEdges = await _service.getEdgesForNode(nextNode.id);
         setState(() {
+          _history.add(_DiagnosticHistoryItem(
+            node: _currentNode!,
+            edges: _edges,
+            selectedIndex: _selectedIndex,
+          ));
           _currentNode = nextNode;
           _edges = nextEdges;
           _selectedIndex = -1;
@@ -82,6 +88,29 @@ class _DiagnosticPageState extends State<DiagnosticPage> {
       }
     } catch (e) {
       _showError('Erro ao processar resposta: $e');
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _handleBack() async {
+    if (_history.isEmpty) return;
+
+    final previous = _history.removeLast();
+    
+    setState(() => _isLoading = true);
+    try {
+      // Remove a resposta anterior do banco
+      await _service.deleteResponse(previous.node.id);
+
+      setState(() {
+        _currentNode = previous.node;
+        _edges = previous.edges;
+        _selectedIndex = previous.selectedIndex;
+        _currentStep--;
+      });
+    } catch (e) {
+      _showError('Erro ao voltar: $e');
     } finally {
       setState(() => _isLoading = false);
     }
@@ -191,35 +220,31 @@ class _DiagnosticPageState extends State<DiagnosticPage> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      OutlinedButton.icon(
-                                        onPressed: () {
-                                          Navigator.pushReplacementNamed(
-                                            context,
-                                            AppRoutes.dashboard,
-                                          );
-                                        },
-                                        icon: const Icon(Icons.arrow_back),
-                                        label: const Text('Voltar'),
-                                        style: OutlinedButton.styleFrom(
-                                          foregroundColor: AppColors.slate700,
-                                          backgroundColor: AppColors.slate200,
-                                          side: BorderSide.none,
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 32,
-                                            vertical: 20,
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              12,
+                                      if (_history.isNotEmpty) ...[
+                                        OutlinedButton.icon(
+                                          onPressed: _handleBack,
+                                          icon: const Icon(Icons.arrow_back),
+                                          label: const Text('Voltar'),
+                                          style: OutlinedButton.styleFrom(
+                                            foregroundColor: AppColors.slate700,
+                                            backgroundColor: AppColors.slate200,
+                                            side: BorderSide.none,
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 32,
+                                              vertical: 20,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius
+                                                  .circular(12),
+                                            ),
+                                            textStyle: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
                                             ),
                                           ),
-                                          textStyle: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                          ),
                                         ),
-                                      ),
-                                      const SizedBox(width: 16),
+                                        const SizedBox(width: 16),
+                                      ],
                                       ElevatedButton(
                                         onPressed: _selectedIndex != -1
                                             ? _handleNext
@@ -294,4 +319,16 @@ class _DiagnosticPageState extends State<DiagnosticPage> {
       ),
     );
   }
+}
+
+class _DiagnosticHistoryItem {
+  final DiagnosticNode node;
+  final List<DiagnosticEdge> edges;
+  final int selectedIndex;
+
+  _DiagnosticHistoryItem({
+    required this.node,
+    required this.edges,
+    required this.selectedIndex,
+  });
 }

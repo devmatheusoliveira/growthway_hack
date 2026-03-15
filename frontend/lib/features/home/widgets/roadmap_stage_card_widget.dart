@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/shared/theme/app_colors.dart';
+import 'package:frontend/shared/models/roadmap_model.dart';
+import 'package:frontend/features/home/widgets/roadmap_sub_task_item_widget.dart';
 
 class RoadmapStageCardWidget extends StatefulWidget {
   final String title;
@@ -9,6 +11,8 @@ class RoadmapStageCardWidget extends StatefulWidget {
   final bool isLocked;
   final String? question;
   final String? answer;
+  final List<RoadmapTask> tasks;
+  final Function(String taskId, bool completed)? onTaskToggle;
 
   const RoadmapStageCardWidget({
     super.key,
@@ -19,6 +23,8 @@ class RoadmapStageCardWidget extends StatefulWidget {
     this.isLocked = false,
     this.question,
     this.answer,
+    this.tasks = const [],
+    this.onTaskToggle,
   });
 
   @override
@@ -135,7 +141,7 @@ class _RoadmapStageCardWidgetState extends State<RoadmapStageCardWidget> {
                               ),
                         ),
                       ),
-                      if (!widget.isLocked && widget.question != null)
+                      if (!widget.isLocked && (widget.question != null || widget.tasks.isNotEmpty))
                         Icon(
                           _isExpanded ? Icons.expand_less : Icons.expand_more,
                           color: AppColors.slate400,
@@ -157,10 +163,10 @@ class _RoadmapStageCardWidgetState extends State<RoadmapStageCardWidget> {
             ),
           ),
         ),
-        if (_isExpanded && widget.question != null)
+        if (_isExpanded && (widget.question != null || widget.tasks.isNotEmpty))
           AnimatedContainer(
             duration: const Duration(milliseconds: 300),
-            width: 256,
+            width: 320, // Aumentado para acomodar tarefas
             margin: const EdgeInsets.only(top: 8),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -171,55 +177,95 @@ class _RoadmapStageCardWidgetState extends State<RoadmapStageCardWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'DIAGNÓSTICO',
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: AppColors.slate400,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 0.5,
+                if (widget.question != null) ...[
+                  Text(
+                    'DIAGNÓSTICO',
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: AppColors.slate400,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.5,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  widget.question!,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: AppColors.slate700,
-                    fontWeight: FontWeight.w600,
+                  const SizedBox(height: 8),
+                  Text(
+                    widget.question!,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: AppColors.slate700,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withAlpha(25),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: AppColors.primary.withAlpha(51)),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.check_circle_outline,
-                        color: AppColors.primary,
-                        size: 14,
-                      ),
-                      const SizedBox(width: 6),
-                      Flexible(
-                        child: Text(
-                          widget.answer!,
-                          style: Theme.of(context).textTheme.labelSmall
-                              ?.copyWith(
-                                color: AppColors.primary,
-                                fontWeight: FontWeight.w700,
-                              ),
+                  const SizedBox(height: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withAlpha(25),
+                      borderRadius: BorderRadius.circular(8),
+                      border:
+                          Border.all(color: AppColors.primary.withAlpha(51)),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.check_circle_outline,
+                          color: AppColors.primary,
+                          size: 14,
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 6),
+                        Flexible(
+                          child: Text(
+                            widget.answer!,
+                            style: Theme.of(context).textTheme.labelSmall
+                                ?.copyWith(
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                  if (widget.tasks.isNotEmpty) ...[
+                    const SizedBox(height: 16),
+                    const Divider(height: 1, color: AppColors.slate200),
+                    const SizedBox(height: 16),
+                  ],
+                ],
+                if (widget.tasks.isNotEmpty) ...[
+                  Text(
+                    'TAREFAS',
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: AppColors.slate400,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  ...widget.tasks.map(
+                    (task) => Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: RoadmapSubTaskItemWidget(
+                        title: task.title,
+                        description: '', // Descrição curta para o card menor
+                        xp: task.xp,
+                        state: task.state == 'completed'
+                            ? SubTaskState.completed
+                            : (widget.isCompleted
+                                ? SubTaskState.completed
+                                : SubTaskState.active),
+                        onTap: widget.onTaskToggle != null
+                            ? () => widget.onTaskToggle!(
+                                task.id,
+                                task.state != 'completed',
+                              )
+                            : null,
+                      ),
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

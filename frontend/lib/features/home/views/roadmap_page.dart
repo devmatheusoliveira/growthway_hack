@@ -126,6 +126,12 @@ class _RoadmapPageState extends State<RoadmapPage> {
               stageXp: stage.xp,
               question: stage.question,
               answer: stage.answer,
+              onTaskToggle: (taskId, completed) async {
+                await _roadmapService.toggleTaskCompletion(taskId, completed);
+                setState(() {
+                  _roadmapFuture = _roadmapService.getRoadmap();
+                });
+              },
             ),
           ),
         );
@@ -145,6 +151,13 @@ class _RoadmapPageState extends State<RoadmapPage> {
           isLocked: stage.isLocked,
           question: stage.question,
           answer: stage.answer,
+          tasks: stage.tasks,
+          onTaskToggle: (taskId, completed) async {
+            await _roadmapService.toggleTaskCompletion(taskId, completed);
+            setState(() {
+              _roadmapFuture = _roadmapService.getRoadmap();
+            });
+          },
         );
 
         if (stage.isLocked) {

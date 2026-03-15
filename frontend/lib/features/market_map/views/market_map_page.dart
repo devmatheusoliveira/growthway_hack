@@ -22,6 +22,21 @@ class _MarketMapPageState extends State<MarketMapPage> {
   bool _isLoading = true;
   String? _selectedStateSigla;
   String? _errorMessage;
+  String _selectedCnaeId = '117555';
+  double _averageDensity = 0.0;
+
+  final Map<String, String> _sectors = {
+    '117555': 'Tecnologia / TIC',
+    '117363': 'Comércio',
+    '116910': 'Indústria',
+    '117543': 'Gastronomia / Viagens',
+    '117810': 'Saúde / Social',
+    '117788': 'Educação',
+    '117608': 'Finanças / Seguros',
+    '117673': 'Serviços Técnicos',
+    '117329': 'Construção Civil',
+    '116830': 'Agronegócio',
+  };
 
   @override
   void initState() {
@@ -41,7 +56,7 @@ class _MarketMapPageState extends State<MarketMapPage> {
         IbgeService.fetchEstados(),
         IbgeService.fetchTotalMunicipiosPorEstado(),
         IbgeService.fetchPopulacaoEstados(),
-        IbgeService.fetchEmpresasTechPorEstado(),
+        IbgeService.fetchCompetidoresPorEstado(cnaeId: _selectedCnaeId),
       ]);
 
       final List<StateMarketData> estados = results[0] as List<StateMarketData>;
@@ -67,6 +82,10 @@ class _MarketMapPageState extends State<MarketMapPage> {
 
       setState(() {
         _states = enrichedStates;
+        _averageDensity = enrichedStates.isNotEmpty
+            ? enrichedStates.fold(0.0, (sum, s) => sum + s.densidadePor100k) /
+                enrichedStates.length
+            : 0.0;
         _isLoading = false;
       });
     } catch (e) {
@@ -138,6 +157,8 @@ class _MarketMapPageState extends State<MarketMapPage> {
                       padding: const EdgeInsets.all(24),
                       child: Column(
                         children: [
+                          _buildSectorSelector(),
+                          const SizedBox(height: 20),
                           SizedBox(
                             height: 90,
                             child: Row(
@@ -270,6 +291,8 @@ class _MarketMapPageState extends State<MarketMapPage> {
                                   const SizedBox(width: 20),
                                   StateDetailPanelWidget(
                                     stateData: _selectedState!,
+                                    sectorName: _sectors[_selectedCnaeId] ?? '',
+                                    averageDensity: _averageDensity,
                                     onClose: () {
                                       setState(
                                         () => _selectedStateSigla = null,
@@ -305,6 +328,51 @@ class _MarketMapPageState extends State<MarketMapPage> {
       (a, b) => a.densidadePor100k > b.densidadePor100k ? a : b,
     );
     return '${top.sigla} (${top.densidadePor100k.toStringAsFixed(1)})';
+  }
+
+  Widget _buildSectorSelector() {
+    return Container(
+      height: 48,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: _sectors.length,
+        separatorBuilder: (context, index) => const SizedBox(width: 10),
+        itemBuilder: (context, index) {
+          final entry = _sectors.entries.elementAt(index);
+          final isSelected = _selectedCnaeId == entry.key;
+
+          return FilterChip(
+            label: Text(entry.value),
+            selected: isSelected,
+            onSelected: (selected) {
+              if (selected && !isSelected) {
+                setState(() {
+                  _selectedCnaeId = entry.key;
+                  _selectedStateSigla = null;
+                });
+                _loadData();
+              }
+            },
+            selectedColor: AppColors.primary.withAlpha(51),
+            checkmarkColor: AppColors.primary,
+            labelStyle: TextStyle(
+              color: isSelected ? AppColors.primary : AppColors.slate600,
+              fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+              fontSize: 13,
+            ),
+            backgroundColor: AppColors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(100),
+              side: BorderSide(
+                color: isSelected ? AppColors.primary : AppColors.slate200,
+                width: 1,
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }
 

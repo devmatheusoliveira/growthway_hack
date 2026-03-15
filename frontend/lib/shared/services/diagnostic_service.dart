@@ -49,4 +49,17 @@ class DiagnosticService {
       'edge_id': edgeId,
     });
   }
+
+  Future<void> deleteResponse(String nodeId) async {
+    final userId = _client.auth.currentUser?.id;
+    if (userId == null) return;
+
+    await _client
+        .from('user_diagnostic_responses')
+        .delete()
+        .match({
+          'user_id': userId,
+          'node_id': nodeId,
+        });
+  }
 }

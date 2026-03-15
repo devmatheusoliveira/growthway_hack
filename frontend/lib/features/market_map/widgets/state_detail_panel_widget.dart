@@ -4,11 +4,15 @@ import 'package:frontend/shared/theme/app_colors.dart';
 
 class StateDetailPanelWidget extends StatelessWidget {
   final StateMarketData stateData;
+  final String sectorName;
+  final double averageDensity;
   final VoidCallback onClose;
 
   const StateDetailPanelWidget({
     super.key,
     required this.stateData,
+    required this.sectorName,
+    required this.averageDensity,
     required this.onClose,
   });
 
@@ -63,7 +67,11 @@ class StateDetailPanelWidget extends StatelessWidget {
                   color: AppColors.primary,
                 ),
                 const SizedBox(height: 24),
-                _MarketInsightSection(stateData: stateData),
+                _MarketInsightSection(
+                  stateData: stateData,
+                  sectorName: sectorName,
+                  averageDensity: averageDensity,
+                ),
               ],
             ),
           ),
@@ -239,8 +247,14 @@ class _StatMetricRow extends StatelessWidget {
 
 class _MarketInsightSection extends StatelessWidget {
   final StateMarketData stateData;
+  final String sectorName;
+  final double averageDensity;
 
-  const _MarketInsightSection({required this.stateData});
+  const _MarketInsightSection({
+    required this.stateData,
+    required this.sectorName,
+    required this.averageDensity,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -301,32 +315,36 @@ class _MarketInsightSection extends StatelessWidget {
   }
 
   _MarketLevel _getMarketLevel() {
-    if (stateData.densidadePor100k > 5) {
+    final density = stateData.densidadePor100k;
+    final avg = averageDensity > 0 ? averageDensity : 1.0;
+
+    if (density > avg * 1.5) {
       return _MarketLevel(
         label: 'MERCADO SATURADO',
         description:
-            'Alta concentração de concorrentes. Diferenciação agressiva necessária para entrada.',
+            'A densidade de $sectorName em ${stateData.sigla} está muito acima da média nacional ($avg). Diferenciação agressiva é indispensável.',
         color: const Color(0xFFEF4444),
       );
-    } else if (stateData.densidadePor100k > 2) {
+    } else if (density > avg) {
       return _MarketLevel(
         label: 'MERCADO COMPETITIVO',
         description:
-            'Concorrência moderada. Há espaço para novos players com proposta de valor clara.',
+            'Presença de $sectorName acima da média. Há espaço para novos players com proposta de valor clara e nicho bem definido.',
         color: const Color(0xFFF59E0B),
       );
-    } else if (stateData.densidadePor100k > 0.5) {
+    } else if (density > avg * 0.5) {
       return _MarketLevel(
         label: 'OPORTUNIDADE',
         description:
-            'Baixa concorrência relativa à população. Excelente janela de oportunidade.',
+            'A densidade de $sectorName está abaixo da média nacional. Excelente janela para expansão e captura de market share.',
         color: AppColors.primary,
       );
     }
+
     return _MarketLevel(
       label: 'MERCADO INEXPLORADO',
       description:
-          'Presença mínima de concorrentes. Alto potencial de first-mover advantage.',
+          'Baixa densidade de $sectorName. Alto potencial de "first-mover advantage" neste estado.',
       color: const Color(0xFF3B82F6),
     );
   }

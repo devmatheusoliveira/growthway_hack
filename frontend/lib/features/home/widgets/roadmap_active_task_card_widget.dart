@@ -19,7 +19,10 @@ class RoadmapActiveTaskCardWidget extends StatelessWidget {
     required this.stageXp,
     this.question,
     this.answer,
+    this.onTaskToggle,
   });
+
+  final Function(String taskId, bool completed)? onTaskToggle;
 
   SubTaskState _getTaskState(String state) {
     switch (state) {
@@ -225,6 +228,12 @@ class RoadmapActiveTaskCardWidget extends StatelessWidget {
                       description: task.description,
                       xp: task.xp,
                       state: _getTaskState(task.state),
+                      onTap: onTaskToggle != null
+                          ? () => onTaskToggle!(
+                              task.id,
+                              task.state != 'completed',
+                            )
+                          : null,
                     ),
                   ),
                 ),

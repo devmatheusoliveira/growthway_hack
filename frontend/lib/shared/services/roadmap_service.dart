@@ -32,39 +32,56 @@ class RoadmapService {
       }
     }
 
-    final List<dynamic> data = stagesResponse;
+    // Busca tarefas concluídas pelo usuário
+    final List<dynamic> completedTasksResponse = userId != null
+        ? await _supabase
+              .from('user_completed_tasks')
+              .select('task_id')
+              .eq('user_id', userId)
+        : [];
+    
+    final Set<String> completedTaskIds = completedTasksResponse
+        .map((t) => t['task_id'] as String)
+        .toSet();
 
-    return data.map((stageJson) {
+    final List<dynamic> data = stagesResponse;
+    List<RoadmapStage> stages = [];
+    bool foundActive = false;
+
+    for (var stageJson in data) {
       final tasksJson = stageJson['roadmap_tasks'] as List<dynamic>? ?? [];
-      final orderIndex = stageJson['order_index'] as int;
       final diagnosticNodeId = stageJson['diagnostic_node_id'] as String?;
 
-      const currentActiveOrderIndex = 3;
+      bool allTasksCompleted = tasksJson.isNotEmpty;
+      List<RoadmapTask> tasks = [];
+      
+      for (var taskJson in tasksJson) {
+        final taskId = taskJson['id'] as String;
+        final isTaskDone = completedTaskIds.contains(taskId);
+        
+        if (!isTaskDone) allTasksCompleted = false;
+        
+        tasks.add(RoadmapTask.fromJson(
+          taskJson, 
+          state: isTaskDone ? 'completed' : 'active',
+        ));
+      }
 
-      bool isCompleted = orderIndex < currentActiveOrderIndex;
-      bool isActive = orderIndex == currentActiveOrderIndex;
-      bool isLocked = orderIndex > currentActiveOrderIndex;
+      bool isCompleted = allTasksCompleted && tasksJson.isNotEmpty;
+      bool isActive = false;
+      bool isLocked = false;
 
-      final tasks = tasksJson.map((taskJson) {
-        final taskOrder = taskJson['order_index'] as int;
-        String state = 'locked';
+      if (!isCompleted && !foundActive) {
+        isActive = true;
+        foundActive = true;
+      } else if (!isCompleted && foundActive) {
+        isLocked = true;
+      } else if (isCompleted) {
+        // Já está marcado como complete
+      }
 
-        if (isActive) {
-          if (taskOrder < 3) {
-            state = 'completed';
-          } else if (taskOrder == 3) {
-            state = 'active';
-          } else {
-            state = 'locked';
-          }
-        } else if (isCompleted) {
-          state = 'completed';
-        } else {
-          state = 'locked';
-        }
-
-        return RoadmapTask.fromJson(taskJson, state: state);
-      }).toList();
+      // Se todas as anteriores estão completas e esta não tem tarefas, ela fica ativa ou locked?
+      // Por simplicidade, se for a primeira não completa, é ativa.
 
       final qa = diagnosticNodeId != null
           ? responsesMap[diagnosticNodeId]
@@ -74,13 +91,33 @@ class RoadmapService {
       stageJsonWithQA['question'] = qa?['question'];
       stageJsonWithQA['answer'] = qa?['answer'];
 
-      return RoadmapStage.fromJson(
+      stages.add(RoadmapStage.fromJson(
         stageJsonWithQA,
         isCompleted: isCompleted,
         isActive: isActive,
         isLocked: isLocked,
         tasks: tasks,
-      );
-    }).toList();
+      ));
+    }
+
+    return stages;
+  }
+
+  Future<void> toggleTaskCompletion(String taskId, bool completed) async {
+    final userId = _supabase.auth.currentUser?.id;
+    if (userId == null) return;
+
+    if (completed) {
+      await _supabase.from('user_completed_tasks').upsert({
+        'user_id': userId,
+        'task_id': taskId,
+      });
+    } else {
+      await _supabase
+          .from('user_completed_tasks')
+          .delete()
+          .eq('user_id', userId)
+          .eq('task_id', taskId);
+    }
   }
 }

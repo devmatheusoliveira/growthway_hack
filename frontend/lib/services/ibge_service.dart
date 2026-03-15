@@ -49,12 +49,15 @@ class IbgeService {
     return results;
   }
 
-  /// Busca o número de unidades locais (Indicador de atividade econômica/concorrentes)
-  /// Tabela 1685 - CEMPRE (Série encerrada em 2021 - dados mais recentes disponíveis para unidades locais)
-  static Future<Map<String, int>> fetchEmpresasTechPorEstado() async {
+  /// Busca o número de unidades locais empregadoras por setor (CNAE)
+  /// Tabela 9925 - Demografia das Empresas (Dados de 2022)
+  /// cnaeId padrão: 117555 (J - Informação e comunicação)
+  static Future<Map<String, int>> fetchCompetidoresPorEstado({
+    String cnaeId = '117555',
+  }) async {
     final response = await http.get(
       Uri.parse(
-        '$_baseUrlV3/agregados/1685/periodos/2021/variaveis/706?localidades=N3[all]',
+        '$_baseUrlV3/agregados/9925/periodos/2022/variaveis/13220?localidades=N3[all]&classificacao=12762[$cnaeId]|371[73119]',
       ),
     );
 
@@ -66,7 +69,7 @@ class IbgeService {
     final results = <String, int>{};
     final resultados = data[0]['resultados'] as List<dynamic>;
     if (resultados.isEmpty) return {};
-    
+
     final series = resultados[0]['series'] as List<dynamic>;
 
     for (var item in series) {
@@ -78,7 +81,6 @@ class IbgeService {
 
         if (id != null && serie is Map && serie.isNotEmpty) {
           final valorStr = serie.values.first?.toString() ?? '0';
-          // O IBGE às vezes retorna '-' para dados não disponíveis
           if (valorStr == '-') continue;
           final valor = int.tryParse(valorStr) ?? 0;
           results[id] = valor;

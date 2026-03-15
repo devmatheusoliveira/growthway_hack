@@ -8,6 +8,7 @@ class RoadmapSubTaskItemWidget extends StatelessWidget {
   final String description;
   final String xp;
   final SubTaskState state;
+  final VoidCallback? onTap;
 
   const RoadmapSubTaskItemWidget({
     super.key,
@@ -15,6 +16,7 @@ class RoadmapSubTaskItemWidget extends StatelessWidget {
     required this.description,
     required this.xp,
     required this.state,
+    this.onTap,
   });
 
   @override
@@ -80,11 +82,79 @@ class RoadmapSubTaskItemWidget extends StatelessWidget {
     }
 
     if (state == SubTaskState.active) {
-      return Container(
+      return InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: AppColors.primary.withAlpha(13),
+            border: Border.all(color: AppColors.primary.withAlpha(51), width: 2),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.primary, width: 2),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Center(
+                  child: Container(
+                    width: 8,
+                    height: 8,
+                    decoration: const BoxDecoration(
+                      color: AppColors.primary,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      description,
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: AppColors.primary.withAlpha(178),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Text(
+                xp,
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Default: Completed
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.primary.withAlpha(13),
-          border: Border.all(color: AppColors.primary.withAlpha(51), width: 2),
+          color: AppColors.slate50,
+          border: Border.all(color: AppColors.slate100),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
@@ -93,18 +163,11 @@ class RoadmapSubTaskItemWidget extends StatelessWidget {
               width: 24,
               height: 24,
               decoration: BoxDecoration(
-                border: Border.all(color: AppColors.primary, width: 2),
+                color: AppColors.primary,
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: Center(
-                child: Container(
-                  width: 8,
-                  height: 8,
-                  decoration: const BoxDecoration(
-                    color: AppColors.primary,
-                    shape: BoxShape.circle,
-                  ),
-                ),
+              child: const Center(
+                child: Icon(Icons.check, size: 16, color: AppColors.white),
               ),
             ),
             const SizedBox(width: 16),
@@ -115,15 +178,15 @@ class RoadmapSubTaskItemWidget extends StatelessWidget {
                   Text(
                     title,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      color: AppColors.primary,
+                      color: AppColors.slate800,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                   Text(
                     description,
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: AppColors.primary.withAlpha(178),
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: AppColors.slate500),
                   ),
                 ],
               ),
@@ -131,65 +194,12 @@ class RoadmapSubTaskItemWidget extends StatelessWidget {
             Text(
               xp,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: AppColors.primary,
-                fontWeight: FontWeight.w900,
+                color: AppColors.slate400,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ],
         ),
-      );
-    }
-
-    // Default: Completed
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.slate50,
-        border: Border.all(color: AppColors.slate100),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 24,
-            height: 24,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: const Center(
-              child: Icon(Icons.check, size: 16, color: AppColors.white),
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    color: AppColors.slate800,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Text(
-                  description,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: AppColors.slate500),
-                ),
-              ],
-            ),
-          ),
-          Text(
-            xp,
-            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: AppColors.slate400,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ],
       ),
     );
   }
