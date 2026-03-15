@@ -140,6 +140,20 @@ class SidebarWidget extends StatelessWidget {
                     }
                   },
                 ),
+                const SizedBox(height: 4),
+                SidebarNavItemWidget(
+                  label: 'Rede de Talentos',
+                  icon: Icons.group_outlined,
+                  isActive: activeIndex == 5,
+                  onTap: () {
+                    if (activeIndex != 5) {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        AppRoutes.talentNetwork,
+                      );
+                    }
+                  },
+                ),
               ],
             ),
           ),
